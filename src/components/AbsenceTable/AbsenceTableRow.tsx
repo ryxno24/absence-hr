@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Absence } from '../../types/absence';
 import { getEndDate, formatDate, getEmployeeName } from '../../utils/absenceUtils';
+import { Button, Badge } from '../ui';
 
 interface AbsenceTableRowProps {
     absence: Absence;
@@ -18,22 +19,18 @@ export const AbsenceTableRow: React.FC<AbsenceTableRowProps> = ({
             <td className="py-3 px-4 text-left border-b border-gray-200">{formatDate(new Date(absence.startDate))}</td>
             <td className="py-3 px-4 text-left border-b border-gray-200">{formatDate(getEndDate(absence))}</td>
             <td className="py-3 px-4 text-left border-b border-gray-200">
-                <button
-                    className="bg-none border-none text-blue-600 cursor-pointer underline font-inherit p-0 hover:text-blue-800"
+                <Button
+                    variant="link"
                     onClick={() => onEmployeeClick(absence.employee.id)}
                     data-testid={`employee-${absence.employee.id}`}
                 >
                     {getEmployeeName(absence)}
-                </button>
+                </Button>
             </td>
             <td className="py-3 px-4 text-left border-b border-gray-200">
-                <span className={`px-2 py-1 rounded text-xs font-medium uppercase ${
-                    absence.approved 
-                        ? 'bg-green-100 text-green-800' 
-                        : 'bg-yellow-100 text-yellow-800'
-                }`}>
+                <Badge variant={absence.approved ? 'success' : 'warning'}>
                     {absence.approved ? 'Approved' : 'Pending Approval'}
-                </span>
+                </Badge>
             </td>
             <td className="py-3 px-4 text-left border-b border-gray-200">{absence.absenceType.replace('_', ' ')}</td>
             <td className="py-3 px-4 text-left border-b border-gray-200">
